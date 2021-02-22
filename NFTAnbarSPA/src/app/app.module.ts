@@ -19,11 +19,15 @@ import { AppComponent } from './app.component';
 import { LayoutComponent } from "./layout/layout.component";
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/header/header.component';
+import { LoadingSpinnerBarsComponent } from './shared/loading-spinner-bars/loading-spinner-bars.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { PaginationComponent } from './data-table/pagination/pagination.component';
 import { DepoComponent } from './depo/depo.component';
 import { DepoTypeComponent } from './depo-type/depo-type.component';
 import { LocationComponent } from './location/location.component';
+import { LocationModalComponent } from './location/location-modal/location-modal.component';
+import { DepoModalComponent } from './depo/depo-modal/depo-modal.component';
+import { DepoTypeModalComponent } from './depo-type/depo-type-modal/depo-type-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,11 +35,15 @@ import { LocationComponent } from './location/location.component';
     LayoutComponent,
     SidebarComponent,
     HeaderComponent,
+    LoadingSpinnerBarsComponent,
     DataTableComponent,
     PaginationComponent,
     DepoComponent,
     DepoTypeComponent,
-    LocationComponent
+    LocationComponent,
+    LocationModalComponent,
+    DepoModalComponent,
+    DepoTypeModalComponent
   ],
   imports: [
     FormsModule,

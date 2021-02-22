@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { emit } from 'process';
 import { Filter } from '../models/filter';
 import { GridData, sortType } from '../models/GridData';
 
@@ -14,11 +15,13 @@ export class DataTableComponent implements OnInit {
   @Input() loading: boolean;
   @Input() sorting: boolean;
   @Input() loadingFailed: boolean;
+  @Input() hasLinksField = false;
 
   @Output() editItem = new EventEmitter();
   @Output() removeItem = new EventEmitter();
   @Output() activeChanged = new EventEmitter();
   @Output() paramsChanged = new EventEmitter();
+  @Output() navigateTo = new EventEmitter();
 
   activeDeactive(): boolean {
     if (!this.loading && !this.loadingFailed) {
@@ -29,23 +32,29 @@ export class DataTableComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  openLink(e: Event, id: number) {
+    e.preventDefault();
+    this.navigateTo.emit(id);
   }
 
   toggleSortFor(column: string) {
-    this.data.pageNumber = 1;
-    if (this.data.sortBy !== column) {
-      this.data.sortType = sortType.Asc;
-      this.data.sortBy = column;
-    } else {
-      if (this.data.sortType === sortType.Desc) {
+    if (column !== 'link') {
+      this.data.pageNumber = 1;
+      if (this.data.sortBy !== column) {
         this.data.sortType = sortType.Asc;
-      } else if (this.data.sortType === sortType.Asc) {
-        this.data.sortType = sortType.Desc;
+        this.data.sortBy = column;
+      } else {
+        if (this.data.sortType === sortType.Desc) {
+          this.data.sortType = sortType.Asc;
+        } else if (this.data.sortType === sortType.Asc) {
+          this.data.sortType = sortType.Desc;
+        }
       }
+      
+      this.paramsChanged.emit();
     }
-
-    this.paramsChanged.emit();
   }
 
   edit(index: number) {

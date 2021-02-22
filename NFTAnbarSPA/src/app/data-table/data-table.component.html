@@ -34,6 +34,13 @@
         <td *ngFor="let field of recordFields(record)">
           {{ field }}
         </td>
+        <td *ngIf="hasLinksField" class="px-auto">
+          <div class="d-flex justify-content-center">
+            <a href="" (click)="openLink($event, record.id)">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </td>
         <td class="status">
           <div class="d-flex justify-content-center align-items-center">
             <input type="checkbox" class="slide-toggle" title="فعال/غیر فعال" [(ngModel)]="record.active" (change)="toggleActive(i)">

@@ -10,7 +10,7 @@
     </mat-form-field>
   </div>
   <ul class="pagination" style="direction: ltr;">
-    <li class="page-item" [ngClass]="{disabled: numberOfPages === pagingParams.pageNumber}">
+    <li class="page-item" [ngClass]="{disabled: numberOfPages === pagingParams.pageNumber || pagingParams.count === 0}">
       <a class="page-link" (click)="pageNumberChange(0)">بعدی</a>
     </li>
     <li class="page-item" *ngFor="let num of pages.slice().reverse()" [ngClass]="{'active': pagingParams.pageNumber === num}">

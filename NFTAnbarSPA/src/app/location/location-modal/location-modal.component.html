@@ -1,0 +1,23 @@
+<h1>{{ title }}</h1>
+<form #f="ngForm" (ngSubmit)="save()">
+  <mat-form-field class="w-100" appearance="fill">
+    <mat-label>نام ناحیه</mat-label>
+    <input matNativeControl [(ngModel)]="data.name" autocomplete="off" type="text" name="name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>توضیحات</mat-label>
+    <textarea matNativeControl name="description" rows="5" [(ngModel)]="data.description"></textarea>
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="data.active" name="active" color="primary" class="my-2 pr-2 d-block">فعال</mat-checkbox>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary ml-2" [mat-dialog-close]="submitted">بستن</button>
+    <button class="btn btn-primary d-flex" type="submit">
+      <div>ثبت</div>
+      <app-loading-spinner-bars
+      color="white"
+      style="height: 25px"
+      class="mr-2"
+      *ngIf="reachingOut"></app-loading-spinner-bars>
+    </button>
+  </div>
+</form>

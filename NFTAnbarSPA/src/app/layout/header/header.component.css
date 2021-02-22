@@ -5,6 +5,6 @@
 
 .nav-link:hover { background-color: #000; }
 
-.logo {
-  height: 1.8rem;
-}
+.logo { height: 62px; }
+
+h1 { font-size: 1.75rem; }
