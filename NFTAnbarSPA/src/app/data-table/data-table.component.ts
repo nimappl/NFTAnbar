@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { emit } from 'process';
 import { Filter } from '../models/filter';
 import { GridData, sortType } from '../models/GridData';
 
@@ -10,12 +9,13 @@ import { GridData, sortType } from '../models/GridData';
 })
 export class DataTableComponent implements OnInit {
   @Input() data: GridData<any>;
-  @Input() columns: Array<{name: string, title: string}>[];
+  @Input() columns: Array<{name: string, title: string}>;
   @Input() searchField: boolean;
   @Input() loading: boolean;
   @Input() sorting: boolean;
   @Input() loadingFailed: boolean;
   @Input() hasLinksField = false;
+  @Input() fieldsToAvoidOnTable: string[];
 
   @Output() editItem = new EventEmitter();
   @Output() removeItem = new EventEmitter();
@@ -52,7 +52,7 @@ export class DataTableComponent implements OnInit {
           this.data.sortType = sortType.Desc;
         }
       }
-      
+
       this.paramsChanged.emit();
     }
   }
@@ -72,8 +72,9 @@ export class DataTableComponent implements OnInit {
   recordFields(record: object) {
     const fields = []
     for (let field in record)
-      if (field !== 'active' && !field.includes('id') && !field.includes('Id'))
+      if (!field.includes('Id') && !this.fieldsToAvoidOnTable.includes(field))
         fields.push(record[field]);
+
     return fields;
   }
 

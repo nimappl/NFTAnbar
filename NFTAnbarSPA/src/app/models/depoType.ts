@@ -1,7 +1,7 @@
 export class DepoType {
     id: number;
     name: string;
-    gCode: number;
-    gKey: number;
+    gcode: number;
+    gkey: number;
     active: boolean;
 }

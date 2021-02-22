@@ -37,10 +37,8 @@ namespace NFTAnbarAPI.Services
                 {
                     if (filter.Key == "Name")
                         query = query.Where(d => d.Name.Contains(filter.Value));
-                    if (filter.Key == "Gcode")
+                    if (filter.Key == "Gcode" && filter.Value != "")
                         query = query.Where(d => d.Gcode == Int32.Parse(filter.Value));
-                    if (filter.Key == "Gkey")
-                        query = query.Where(d => d.Gkey == Int32.Parse(filter.Value));
                 }
             }
 

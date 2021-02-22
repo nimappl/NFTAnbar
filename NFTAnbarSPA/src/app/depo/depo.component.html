@@ -1,1 +1,54 @@
-<p>depo works!</p>
+<div class="card">
+  <div class="card-header">
+    انبار نفت
+  </div>
+  <div class="card-body">
+    <div class="mb-3">
+      <button class="btn btn-primary ml-2" (click)="openModal()">
+        جدید
+        <i class="fas fa-plus mr-2"></i>
+      </button>
+      <button class="btn btn-secondary ml-2" (click)="toggleSearch()">
+        جستجو
+        <i class="fas fa-search mr-2"></i>
+      </button>
+
+      ناحیه:
+      <mat-form-field appearance="fill" dir="rtl">
+        <mat-label style="left: 10px">دسته بندی</mat-label>
+        <mat-select name="categoryId" [(value)]="depos" (openedChange)="toggleLocationSearch($event)">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>جستجو</mat-label>
+            <mat-icon matPrefix fontSet="fas" fontIcon="fa-search" class="ml-1"></mat-icon>
+            <input type="text" autocomplete="off" matNativeControl #search (input)="searchLocation($event.target.value)">
+          </mat-form-field>
+          <mat-option [disabled]="true" *ngIf="loadingLocations; else options">
+            <div class="d-flex align-items-center pr-2">
+              <app-loading-spinner-bars style="height: 32px"></app-loading-spinner-bars>
+              <div class="text-muted font-italic mr-1">در حال بارگذاری</div>
+            </div>
+            </mat-option>
+          <ng-template #options>
+            <mat-option *ngFor="let location of locations.data" [value]="location.id" style="font-family: Vazir">{{ location.name }}</mat-option>
+          </ng-template>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+    <app-data-table
+      [data]="depos"
+      [columns]="columns"
+      [searchField]="showSearchField"
+      [loading]="loading"
+      [sorting]="sorting"
+      [loadingFailed]="loadingFailed"
+      [hasLinksField]="true"
+      [fieldsToAvoidOnTable]="fieldsNotToShow"
+      (editItem)="openModal($event)"
+      (removeItem)="onRemoveLocation($event)"
+      (activeChanged)="onToggleStatus($event)"
+      (paramsChanged)="paramsChanged()">
+    </app-data-table>
+  </div>
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+</div>

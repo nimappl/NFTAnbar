@@ -25,7 +25,7 @@ namespace NFTAnbarAPI
             services.AddDbContext<NFTAnbarContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddScoped<ICityService, CityService>();
-            // services.AddScoped<INdepoService, NdepoService>();
+            services.AddScoped<INdepoService, NdepoService>();
             services.AddScoped<INdepoTypeService, NdepoTypeService>();
             services.AddControllers();
         }

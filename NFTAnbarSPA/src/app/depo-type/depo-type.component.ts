@@ -17,11 +17,11 @@ export class DepoTypeComponent implements OnInit {
 
   columns = [
     {name: 'Name', title: 'نام'},
-    {name: 'Gcode', title: 'کد انحصاری شرکت نفت'},
-    {name: 'Gkey', title: 'کد دسترسی برنامه نویس'},
-    {name: 'link', title: 'لیست انبار ها'}
+    {name: 'Gcode', title: 'کد انحصاری'},
+    {name: 'link', title: 'انبار ها'}
   ];
 
+  fieldsNotToShow = ['id', 'active', 'gkey'];
   showSearchField = false;
   loading = false;
   sorting = false;
@@ -75,7 +75,7 @@ export class DepoTypeComponent implements OnInit {
   }
 
   openDepo(id: number) {
-    
+
   }
 
   toggleSearch() {

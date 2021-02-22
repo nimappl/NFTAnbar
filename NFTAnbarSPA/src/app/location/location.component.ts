@@ -15,10 +15,8 @@ export class LocationComponent implements OnInit {
 
   cities: GridData<City> = new GridData<City>();
 
-  columns = [
-    {name: 'Name', title: 'نام'},
-    {name: 'Description', title: 'توضیحات'}
-  ];
+  columns = [{name: 'Name', title: 'نام'}];
+  fieldsNotToShow = ['description', 'id', 'active'];
 
   showSearchField = false;
   loading = false;

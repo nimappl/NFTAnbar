@@ -1,0 +1,19 @@
+:host ::ng-deep .mat-form-field { width: 140px; }
+:host ::ng-deep .mat-form-field-wrapper { padding-bottom: 0; }
+:host ::ng-deep .mat-form-field-flex { padding: 4px 2px !important; }
+:host ::ng-deep .mat-form-field-infix {
+    padding: 5px 0 7px 0 !important;
+    border-top: 0 !important;
+}
+:host ::ng-deep .mat-form-field-label-wrapper { display: none; }
+:host ::ng-deep .mat-form-field-underline { bottom: 0; }
+:host ::ng-deep .mat-select-arrow-wrapper { transform: none !important; }
+:host ::ng-deep .mat-select { text-align: right; padding-right: 6px; font-family: Vazir; }
+.search-field {
+  font-family: Vazir;
+  width: 100%;
+  padding: 5px;
+  position: sticky;
+  top: 0;
+}
+.search-field ::ng-deep .mat-form-field-wrapper { padding-bottom: 0; }

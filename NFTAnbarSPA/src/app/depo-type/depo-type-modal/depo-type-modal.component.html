@@ -3,18 +3,18 @@
   <div class="row">
     <div class="col-sm-6">
       <mat-form-field appearance="fill">
-        <mat-label>نام انبار</mat-label>
+        <mat-label>نام</mat-label>
         <input type="text" name="name" autocomplete="off" [(ngModel)]="data.name" matNativeControl>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>کد انحصاری شرکت نفت</mat-label>
-        <input type="number" name="gCode" autocomplete="off" [(ngModel)]="data.gCode" matNativeControl>
+        <mat-label>کد انحصاری</mat-label>
+        <input type="number" name="gcode" autocomplete="off" [(ngModel)]="data.gcode" matNativeControl>
       </mat-form-field>
     </div>
     <div class="col-sm-6">
       <mat-form-field appearance="fill">
         <mat-label>کد دسترسی برنامه نویس</mat-label>
-        <input type="number" name="gKey" autocomplete="off" [(ngModel)]="data.gKey" matNativeControl>
+        <input type="number" name="gkey" autocomplete="off" [(ngModel)]="data.gkey" matNativeControl>
       </mat-form-field>
       <mat-checkbox [(ngModel)]="data.active" name="active" color="primary" class="my-3 pr-2 d-block">فعال</mat-checkbox>
     </div>
