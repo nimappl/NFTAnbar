@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { Filter } from '../models/filter';
-import { GridData, sortType } from '../models/GridData';
+import { Filter } from '../../models/filter';
+import { GridData, sortType } from '../../models/GridData';
 
 @Component({
   selector: 'app-data-table',

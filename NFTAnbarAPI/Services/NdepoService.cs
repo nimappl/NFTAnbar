@@ -64,6 +64,9 @@ namespace NFTAnbarAPI.Services
                         case "NdepoType":
                             query = query.Where(d => d.NdepoType.Contains(filter.Value));
                             break;
+                        case "NdepoTypeId":
+                            query = query.Where(d => d.NdepoTypeId == Int32.Parse(filter.Value));
+                            break;
                     }
                 }
             }

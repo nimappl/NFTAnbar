@@ -2,8 +2,28 @@
 <form #f="ngForm" (ngSubmit)="submit()">
   <div class="row">
     <div class="col-sm-6">
+      <mat-form-field appearance="fill">
+        <mat-label>کد انحصاری انبار</mat-label>
+        <input matNativeControl type="number" name="gcode" [(ngModel)]="data.gcode">
+      </mat-form-field>
+      <app-select-with-search
+        [selectedId]="data.cityId"
+        [service]="locationSrv"
+        label="ناحیه اصلی انبار"
+        (selectedChanged)="setLocation($event.id)">
+      </app-select-with-search>
     </div>
     <div class="col-sm-6">
+      <mat-form-field appearance="fill">
+        <mat-label>عنوان</mat-label>
+        <input matNativeControl autocomplete="off" type="text" name="name" [(ngModel)]="data.name">
+      </mat-form-field>
+      <app-select-with-search
+        [selectedId]="data.ndepoTypeId"
+        [service]="depoTypeSrv"
+        label="نوع انبار"
+        (selectedChanged)="setDepoType($event.id)">
+      </app-select-with-search>
     </div>
   </div>
   <div class="d-flex justify-content-end">

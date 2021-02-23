@@ -5,6 +5,7 @@ import { DepoTypeService } from '../services/depo-type.service';
 import { DepoType } from "../models/depoType";
 import { GridData } from "../models/GridData";
 import swal from 'sweetalert';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-depo-type',
@@ -31,7 +32,8 @@ export class DepoTypeComponent implements OnInit {
   activeDeactive: boolean = true;
 
   constructor(private dialog: MatDialog,
-              private depoTypeSrv: DepoTypeService) { }
+              private depoTypeSrv: DepoTypeService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.fetch(true);
@@ -75,7 +77,7 @@ export class DepoTypeComponent implements OnInit {
   }
 
   openDepo(id: number) {
-
+    this.router.navigate(['depo'], {queryParams: {depoTypeId: id}});
   }
 
   toggleSearch() {

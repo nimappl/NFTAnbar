@@ -1,0 +1,19 @@
+<mat-form-field appearance="fill" dir="rtl">
+  <mat-label style="left: 10px">{{ label }}</mat-label>
+  <mat-select name="categoryId" [(value)]="selectedId" (openedChange)="toggleSearch($event)" (valueChange)="selected()">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>جستجو</mat-label>
+      <mat-icon matPrefix fontSet="fas" fontIcon="fa-search" class="ml-1"></mat-icon>
+      <input type="text" autocomplete="off" matNativeControl #search (input)="searchList($event.target.value)">
+    </mat-form-field>
+    <mat-option [disabled]="true" *ngIf="loadingList; else options">
+      <div class="d-flex align-items-center pr-2">
+        <app-loading-spinner-bars style="height: 32px"></app-loading-spinner-bars>
+        <div class="text-muted font-italic mr-1">در حال بارگذاری</div>
+      </div>
+    </mat-option>
+    <ng-template #options>
+      <mat-option *ngFor="let item of list.data" [value]="item.id" style="font-family: Vazir">{{ item.name }}</mat-option>
+    </ng-template>
+  </mat-select>
+</mat-form-field>

@@ -8,7 +8,6 @@
     <mat-label>توضیحات</mat-label>
     <textarea matNativeControl name="description" rows="5" [(ngModel)]="data.description"></textarea>
   </mat-form-field>
-  <mat-checkbox [(ngModel)]="data.active" name="active" color="primary" class="my-2 pr-2 d-block">فعال</mat-checkbox>
   <div class="d-flex justify-content-end">
     <button class="btn btn-secondary ml-2" [mat-dialog-close]="submitted">بستن</button>
     <button class="btn btn-primary d-flex" type="submit">

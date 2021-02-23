@@ -10,29 +10,15 @@
       </button>
       <button class="btn btn-secondary ml-2" (click)="toggleSearch()">
         جستجو
-        <i class="fas fa-search mr-2"></i>
+        <i class="fas fa-search mr-3"></i>
       </button>
 
-      ناحیه:
-      <mat-form-field appearance="fill" dir="rtl">
-        <mat-label style="left: 10px">دسته بندی</mat-label>
-        <mat-select name="categoryId" [(value)]="depos" (openedChange)="toggleLocationSearch($event)">
-          <mat-form-field appearance="outline" class="search-field">
-            <mat-label>جستجو</mat-label>
-            <mat-icon matPrefix fontSet="fas" fontIcon="fa-search" class="ml-1"></mat-icon>
-            <input type="text" autocomplete="off" matNativeControl #search (input)="searchLocation($event.target.value)">
-          </mat-form-field>
-          <mat-option [disabled]="true" *ngIf="loadingLocations; else options">
-            <div class="d-flex align-items-center pr-2">
-              <app-loading-spinner-bars style="height: 32px"></app-loading-spinner-bars>
-              <div class="text-muted font-italic mr-1">در حال بارگذاری</div>
-            </div>
-            </mat-option>
-          <ng-template #options>
-            <mat-option *ngFor="let location of locations.data" [value]="location.id" style="font-family: Vazir">{{ location.name }}</mat-option>
-          </ng-template>
-        </mat-select>
-      </mat-form-field>
+      نوع انبار:
+      <app-select-with-search
+        [service]="depoTypeSrv"
+        [selectedId]="depoTypeId"
+        (selectedChanged)="filterByDepoType($event.id)">
+      </app-select-with-search>
 
     </div>
     <app-data-table

@@ -5,9 +5,9 @@ import { DepoService } from '../services/depo.service';
 import { Depo } from "../models/depo";
 import { GridData } from "../models/GridData";
 import swal from 'sweetalert';
-import { LocationService } from '../services/location.service';
-import { City } from '../models/city';
 import { Filter } from '../models/filter';
+import { ActivatedRoute } from '@angular/router';
+import { DepoTypeService } from '../services/depo-type.service';
 
 @Component({
   selector: 'app-depo',
@@ -20,32 +20,42 @@ export class DepoComponent implements OnInit {
 
   columns = [
     {name: 'Name', title: 'نام'},
-    {name: 'Gcode', title: 'کد انحصاری انبار'},
+    {name: 'Gcode', title: 'کد انحصاری'},
     {name: 'City', title: 'ناحیه اصلی انبار'},
+    {name: 'NdepoType', title: 'نوع انبار'},
     {name: 'link', title: 'تنظیمات انبار'}
   ];
 
-  fieldsNotToShow = ['id', 'active', 'DepoType'];
+  depoTypeId: number;
+
+  fieldsNotToShow = ['id', 'active'];
   showSearchField = false;
   loading = false;
   sorting = false;
   loadingFailed = false;
   searchFormStatus = 'clean';
 
-  locations = new GridData<City>();
-  loadingLocations = false;
-  @ViewChild('search') searchField: ElementRef;
-
   activeDeactive: boolean = true;
 
   constructor(private dialog: MatDialog,
               private depoSrv: DepoService,
-              private locationSrv: LocationService) { }
+              public depoTypeSrv: DepoTypeService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.depos.filters = new Array<Filter>();
+    if (!this.depos.filters)
+      this.depos.filters = new Array<Filter>();
+
+    this.route.queryParams.subscribe(qParams => {
+      if (qParams.depoTypeId) {
+        this.depoTypeId = +qParams.depoTypeId;
+        this.filterByDepoType(+qParams.depoTypeId);
+      } else {
+        this.depos.filters = [];
+      }
+    });
+
     this.fetch(true);
-    this.fetchLocations();
   }
 
   fetch(tableLoading = false) {
@@ -68,28 +78,17 @@ export class DepoComponent implements OnInit {
     });
   }
 
-  fetchLocations() {
-    this.loadingLocations = true;
-    delete this.locations.data;
-    this.locationSrv.get(this.locations).subscribe(res => {
-      this.locations = res;
-      this.loadingLocations = false;
-    });
-  }
-
-  toggleLocationSearch(open: boolean) {
-    if (open)
-      this.searchField.nativeElement.focus();
-  }
-  searchLocation(input: string) {
-    if (!this.locations.filters) {
-      this.locations.filters = new Array<Filter>();
-      this.locations.filters.push(new Filter("Name", input));
+  filterByDepoType(id: number) {
+    let filter = this.depos.filters.find(f => f.key === 'NdepoTypeId');
+    
+    if (!filter) {
+      this.depos.filters.push(new Filter('NdepoTypeId', id.toString()));
     } else {
-      this.locations.filters[0].value = input;
+      filter.value = id.toString();
     }
 
-    this.fetchLocations();
+    this.depoTypeId = id;
+    this.fetch();
   }
 
   openModal(edit?: Depo) {
@@ -120,7 +119,7 @@ export class DepoComponent implements OnInit {
   onRemoveLocation(index: number) {
     swal({
       title: 'حذف',
-      text: `نوع انبار "${this.depos.data[index].name}" حذف خواهد شد`,
+      text: `انبار "${this.depos.data[index].name}" حذف خواهد شد`,
       icon: 'warning',
       buttons: ['بازگشت', 'ادامه'],
       dangerMode: true
@@ -129,7 +128,7 @@ export class DepoComponent implements OnInit {
         this.loading = true;
         this.depoSrv.delete(this.depos.data[index].id).subscribe(res => {
           this.loading = false;
-          swal({title: 'موفق', text: `نوع انبار "${this.depos.data[index].name}" با موفقیت حذف شد.`, icon: 'success'});
+          swal({title: 'موفق', text: `انبار "${this.depos.data[index].name}" با موفقیت حذف شد.`, icon: 'success'});
           this.fetch();
         }, err => {
           this.loading = false;

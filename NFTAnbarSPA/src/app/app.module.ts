@@ -20,14 +20,15 @@ import { LayoutComponent } from "./layout/layout.component";
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { LoadingSpinnerBarsComponent } from './shared/loading-spinner-bars/loading-spinner-bars.component';
-import { DataTableComponent } from './data-table/data-table.component';
-import { PaginationComponent } from './data-table/pagination/pagination.component';
+import { DataTableComponent } from './shared/data-table/data-table.component';
+import { PaginationComponent } from './shared/data-table/pagination/pagination.component';
 import { DepoComponent } from './depo/depo.component';
 import { DepoTypeComponent } from './depo-type/depo-type.component';
 import { LocationComponent } from './location/location.component';
 import { LocationModalComponent } from './location/location-modal/location-modal.component';
 import { DepoModalComponent } from './depo/depo-modal/depo-modal.component';
 import { DepoTypeModalComponent } from './depo-type/depo-type-modal/depo-type-modal.component';
+import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { DepoTypeModalComponent } from './depo-type/depo-type-modal/depo-type-mo
     LocationComponent,
     LocationModalComponent,
     DepoModalComponent,
-    DepoTypeModalComponent
+    DepoTypeModalComponent,
+    SelectWithSearchComponent
   ],
   imports: [
     FormsModule,

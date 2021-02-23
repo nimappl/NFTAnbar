@@ -1,10 +1,10 @@
 export class Depo {
     id: number;
     name: string;
-    gCode: number;
+    gcode: number;
     cityId: number;
     city: string;
-    nDepoTypeId: number;
-    nDepoType: string;
+    ndepoTypeId: number;
+    ndepoType: string;
     active: boolean;
 }
