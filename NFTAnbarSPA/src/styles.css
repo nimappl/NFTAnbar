@@ -14,31 +14,31 @@ body { margin: 0; font-family: Vazir; }
 /* Slide Toggle (Checkbox) Styling */
 
 .slide-toggle {
-    position: relative;
-    width: 48px;
-    height: 24px;
-    appearance: none;
-    background: #c6c6c6;
-    outline: none;
-    border-radius: 20px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
-    transition: .25s;
+  position: relative;
+  width: 48px;
+  height: 24px;
+  appearance: none;
+  background: #c6c6c6;
+  outline: none;
+  border-radius: 20px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+  transition: .25s;
 }
 
 .slide-toggle:checked { background: #03a9f4; }
 
-    .slide-toggle:before {
-    content: '';
-    position: absolute;
-    width: 24px;
-    height:24px;
-    border-radius: 20px;
-    top: 0;
-    left: 0;
-    background: #fff;
-    transform: scale(1.1);
-    box-shadow: 0 2px 5px rgba(0,0,0,.3);
-    transition: .25s;
+.slide-toggle:before {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height:24px;
+  border-radius: 20px;
+  top: 0;
+  left: 0;
+  background: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+  transition: .25s;
 }
 
 .slide-toggle:checked:before { left: 24px; }

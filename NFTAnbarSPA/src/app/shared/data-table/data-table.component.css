@@ -11,3 +11,7 @@ table { font-size: .85rem; }
 
 .edit { width: 14rem; }
 .status { width: 110px; }
+.btn { border: none; }
+
+.btn-info { background-color: #4d94ff; }
+.btn-info:hover { background-color: #0052cc; }

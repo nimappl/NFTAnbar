@@ -35,11 +35,12 @@
         <td *ngFor="let field of recordFields(record)">
           {{ field }}
         </td>
-        <td *ngIf="hasLinksField" class="px-auto">
-          <div class="d-flex justify-content-center">
-            <a href="" (click)="openLink($event, record.id)">
+        <td *ngIf="hasLinksField" class="py-2 link">
+          <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-sm btn-info" (click)="openLink(record.id)">
+              {{ columns[hasLinksField].title }}
               <i class="fas fa-external-link-alt"></i>
-            </a>
+            </button>
           </div>
         </td>
         <td class="py-2 edit">
@@ -54,7 +55,7 @@
             </button>
           </div>
         </td>
-        <td class="status">
+        <td class="status py-2">
           <div class="d-flex justify-content-center align-items-center">
             <input type="checkbox" class="slide-toggle" title="فعال/غیر فعال" [(ngModel)]="record.active" (change)="toggleActive(i)">
           </div>

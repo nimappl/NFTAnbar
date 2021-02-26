@@ -12,8 +12,9 @@ export class SelectWithSearchComponent implements OnInit {
   @Input() selectedId: any;
   @Input() service;
   @Input() label: string;
+  @Input() default: {id: string, name: string;};
   @Output() selectedChanged = new EventEmitter();
-  
+
   list = new GridData<any>();
   loadingList = false;
   @ViewChild('search') searchField: ElementRef;
@@ -28,6 +29,11 @@ export class SelectWithSearchComponent implements OnInit {
     delete this.list.data;
     this.service.get(this.list).subscribe(res => {
       this.list = res;
+      if (this.default) {
+        this.list.data.unshift(this.default);
+        if (!this.selectedId)
+          this.selectedId = this.default.id;
+      }
       this.loadingList = false;
     });
   }

@@ -15,6 +15,7 @@
 
       نوع انبار:
       <app-select-with-search
+        [default]="{id: '0', name:'همه'}"
         [service]="depoTypeSrv"
         [selectedId]="depoTypeId"
         (selectedChanged)="filterByDepoType($event.id)">
@@ -28,7 +29,7 @@
       [loading]="loading"
       [sorting]="sorting"
       [loadingFailed]="loadingFailed"
-      [hasLinksField]="true"
+      [hasLinksField]="4"
       [fieldsToAvoidOnTable]="fieldsNotToShow"
       (editItem)="openModal($event)"
       (removeItem)="onRemoveLocation($event)"

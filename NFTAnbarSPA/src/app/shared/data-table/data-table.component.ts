@@ -14,7 +14,7 @@ export class DataTableComponent implements OnInit {
   @Input() loading: boolean;
   @Input() sorting: boolean;
   @Input() loadingFailed: boolean;
-  @Input() hasLinksField = false;
+  @Input() hasLinksField: number;
   @Input() fieldsToAvoidOnTable: string[];
 
   @Output() editItem = new EventEmitter();
@@ -34,8 +34,7 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openLink(e: Event, id: number) {
-    e.preventDefault();
+  openLink(id: number) {
     this.navigateTo.emit(id);
   }
 
@@ -83,14 +82,21 @@ export class DataTableComponent implements OnInit {
     if (!this.data.filters) {
       this.data.filters = new Array<Filter>();
       this.data.filters.push(new Filter(column, value));
+    } else if (this.data.filters.length === 0) {
+      this.data.filters.push(new Filter(column, value));
     } else {
-      this.data.filters.forEach(filter => {
-        if (filter.key === column) {
+      let filter = this.data.filters.find(f => f.key === column);
+      let index = this.data.filters.indexOf(filter);
+
+      if (!filter) {
+        this.data.filters.push(new Filter(column, value));
+      } else {
+        if (value !== '') {
           filter.value = value;
         } else {
-          this.data.filters.push(new Filter(column, value));
+          this.data.filters.splice(index, 1);
         }
-      });
+      }
     }
 
     this.paramsChanged.emit();

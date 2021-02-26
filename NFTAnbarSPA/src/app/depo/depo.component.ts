@@ -80,11 +80,16 @@ export class DepoComponent implements OnInit {
 
   filterByDepoType(id: number) {
     let filter = this.depos.filters.find(f => f.key === 'NdepoTypeId');
-    
-    if (!filter) {
-      this.depos.filters.push(new Filter('NdepoTypeId', id.toString()));
+    let index = this.depos.filters.indexOf(filter);
+
+    if (id != 0) {
+      if (!filter) {
+        this.depos.filters.push(new Filter('NdepoTypeId', id.toString()));
+      } else {
+        filter.value = id.toString();
+      }
     } else {
-      filter.value = id.toString();
+      this.depos.filters.splice(index, 1);
     }
 
     this.depoTypeId = id;
