@@ -101,6 +101,7 @@ namespace NFTAnbarAPI.DTOs
             {
                 Id = customer.Id,
                 Name = customer.Name,
+                NationalCode = customer.NationalCode,
                 Gcode = customer.Gcode,
                 Gkey = customer.Gkey,
                 Active = customer.Active
@@ -111,6 +112,7 @@ namespace NFTAnbarAPI.DTOs
             {
                 Id = dto.Id,
                 Name = dto.Name,
+                NationalCode = dto.NationalCode,
                 Gcode = dto.Gcode,
                 Gkey = dto.Gkey,
                 Active = dto.Active

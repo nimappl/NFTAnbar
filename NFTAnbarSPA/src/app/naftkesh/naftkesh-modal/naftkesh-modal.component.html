@@ -1,0 +1,46 @@
+<h1>{{ title }}</h1>
+<form #f="ngForm" (ngSubmit)="submit()">
+  <div class="row">
+    <div class="col-sm-6">
+      <mat-form-field appearance="fill">
+        <mat-label>نام</mat-label>
+        <input type="text" name="name" autocomplete="off" [(ngModel)]="data.name" matNativeControl>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>نام راننده</mat-label>
+        <input type="text" name="driverName" autocomplete="off" [(ngModel)]="data.driverName" matNativeControl>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>کد ملی راننده</mat-label>
+        <input type="number" name="driverNationalCode" autocomplete="off" [(ngModel)]="data.driverNationalCode" matNativeControl>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <mat-form-field appearance="fill">
+        <mat-label>پلاک</mat-label>
+        <input type="text" name="plateNumber" autocomplete="off" [(ngModel)]="data.plateNumber" matNativeControl>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>شماره گواهینامه راننده</mat-label>
+        <input type="number" name="driverLicenseNumber" autocomplete="off" [(ngModel)]="data.driverLicenseNumber" matNativeControl>
+      </mat-form-field>
+      <app-select-with-search
+        label="پیمانکار"
+        [selectedId]="data.contractorId"
+        [service]="contractorSrv"
+        (selectedChanged)="contractorChanged($event)">
+      </app-select-with-search>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary ml-2" [mat-dialog-close]="submitted">بستن</button>
+    <button class="btn btn-primary d-flex" type="submit">
+      <div>ثبت</div>
+      <app-loading-spinner-bars
+      color="white"
+      style="height: 25px"
+      class="mr-2"
+      *ngIf="reachingOut"></app-loading-spinner-bars>
+    </button>
+  </div>
+</form>

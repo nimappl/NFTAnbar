@@ -35,6 +35,7 @@ namespace NFTAnbarAPI
             services.AddScoped<INdepoWorkShiftService, NdepoWorkShiftService>();
             services.AddScoped<IPermitTypeService, PermitTypeService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ISendTypeService, SendTypeService>();
             services.AddControllers();
         }
 

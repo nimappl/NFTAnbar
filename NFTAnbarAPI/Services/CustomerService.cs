@@ -70,6 +70,7 @@ namespace NFTAnbarAPI.Services
             Customer customer = await _context.Customer.FindAsync(dto.Id);
             customer.Id = dto.Id;
             customer.Name = dto.Name;
+            customer.NationalCode = dto.NationalCode;
             customer.Gcode = dto.Gcode;
             customer.Gkey = dto.Gkey;
             customer.Active = dto.Active;

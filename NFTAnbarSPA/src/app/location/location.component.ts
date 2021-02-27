@@ -78,7 +78,7 @@ export class LocationComponent implements OnInit {
     this.fetch();
   }
 
-  onRemoveLocation(index: number) {
+  onRemoveItem(index: number) {
     swal({
       title: 'حذف',
       text: `ناحیه ${this.cities.data[index].name} حذف خواهد شد`,

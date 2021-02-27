@@ -121,7 +121,7 @@ export class DepoComponent implements OnInit {
     this.fetch();
   }
 
-  onRemoveLocation(index: number) {
+  onRemoveItem(index: number) {
     swal({
       title: 'حذف',
       text: `انبار "${this.depos.data[index].name}" حذف خواهد شد`,

@@ -1,0 +1,9 @@
+h1 { font-size: 30px; font-weight: bold; margin-bottom: 2rem; }
+
+:host ::ng-deep .mat-form-field,
+:host ::ng-deep .mat-form-select,
+:host ::ng-deep .mat-select-value-text,
+:host ::ng-deep .mat-checkbox-label
+ { font-family: Vazir; width: 100%; }
+
+:host ::ng-deep .mat-form-select { font-family: Vazir; width: 100%; }

@@ -29,6 +29,27 @@ import { LocationModalComponent } from './location/location-modal/location-modal
 import { DepoModalComponent } from './depo/depo-modal/depo-modal.component';
 import { DepoTypeModalComponent } from './depo-type/depo-type-modal/depo-type-modal.component';
 import { SelectWithSearchComponent } from './shared/select-with-search/select-with-search.component';
+import { BarnameComponent } from './barname/barname.component';
+import { BarnameModalComponent } from './barname/barname-modal/barname-modal.component';
+import { ContractorComponent } from './contractor/contractor.component';
+import { ContractorModalComponent } from './contractor/contractor-modal/contractor-modal.component';
+import { CustomerComponent } from './customer/customer.component';
+import { CustomerModalComponent } from './customer/customer-modal/customer-modal.component';
+import { HavalehComponent } from './havaleh/havaleh.component';
+import { HavalehModalComponent } from './havaleh/havaleh-modal/havaleh-modal.component';
+import { NaftkeshComponent } from './naftkesh/naftkesh.component';
+import { NaftkeshModalComponent } from './naftkesh/naftkesh-modal/naftkesh-modal.component';
+import { DepoWorkShiftComponent } from './depo-work-shift/depo-work-shift.component';
+import { DepoWorkShiftModalComponent } from './depo-work-shift/depo-work-shift-modal/depo-work-shift-modal.component';
+import { PermitComponent } from './permit/permit.component';
+import { PermitModalComponent } from './permit/permit-modal/permit-modal.component';
+import { PermitTypeComponent } from './permit-type/permit-type.component';
+import { PermitTypeModalComponent } from './permit-type/permit-type-modal/permit-type-modal.component';
+import { ProductComponent } from './product/product.component';
+import { ProductModalComponent } from './product/product-modal/product-modal.component';
+import { SendTypeComponent } from './send-type/send-type.component';
+import { SendTypeModalComponent } from './send-type/send-type-modal/send-type-modal.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +66,28 @@ import { SelectWithSearchComponent } from './shared/select-with-search/select-wi
     LocationModalComponent,
     DepoModalComponent,
     DepoTypeModalComponent,
-    SelectWithSearchComponent
+    SelectWithSearchComponent,
+    BarnameComponent,
+    BarnameModalComponent,
+    ContractorComponent,
+    ContractorModalComponent,
+    CustomerComponent,
+    CustomerModalComponent,
+    HavalehComponent,
+    HavalehModalComponent,
+    NaftkeshComponent,
+    NaftkeshModalComponent,
+    DepoWorkShiftComponent,
+    DepoWorkShiftModalComponent,
+    PermitComponent,
+    PermitModalComponent,
+    PermitTypeComponent,
+    PermitTypeModalComponent,
+    ProductComponent,
+    ProductModalComponent,
+    SendTypeComponent,
+    SendTypeModalComponent,
+    HomeComponent
   ],
   imports: [
     FormsModule,
