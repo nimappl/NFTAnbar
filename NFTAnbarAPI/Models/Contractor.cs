@@ -3,28 +3,27 @@ using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Models
 {
-    public partial class City
+    public partial class Contractor
     {
-        public City()
+        public Contractor()
         {
-            Ndepo = new HashSet<Ndepo>();
+            Naftkesh = new HashSet<Naftkesh>();
             Permit = new HashSet<Permit>();
         }
 
         public long Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public bool Active { get; set; }
-        public DateTime? Cdate { get; set; }
+        public bool? Active { get; set; }
         public long? CuserId { get; set; }
-        public DateTime? Mdate { get; set; }
+        public DateTime? Cdate { get; set; }
         public long? MuserId { get; set; }
-        public DateTime? Ddate { get; set; }
+        public DateTime? Mdate { get; set; }
         public long? DuserId { get; set; }
-        public DateTime? DaDate { get; set; }
+        public DateTime? Ddate { get; set; }
         public long? DaUserId { get; set; }
+        public DateTime? DaDate { get; set; }
 
-        public virtual ICollection<Ndepo> Ndepo { get; set; }
+        public virtual ICollection<Naftkesh> Naftkesh { get; set; }
         public virtual ICollection<Permit> Permit { get; set; }
     }
 }
