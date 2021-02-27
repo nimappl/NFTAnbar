@@ -1,6 +1,6 @@
 namespace NFTAnbarAPI.DTOs
 {
-    public class NdepoWorkShift
+    public class NdepoWorkShiftDTO
     {
         public long Id { get; set; }
         public string Name { get; set; }

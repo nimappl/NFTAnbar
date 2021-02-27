@@ -7,5 +7,6 @@ namespace NFTAnbarAPI.DTOs
         public long? NationalCode { get; set; }
         public long? Gcode { get; set; }
         public long? Gkey { get; set; }
+        public bool? Active { get; set; }
     }
 }

@@ -27,6 +27,14 @@ namespace NFTAnbarAPI
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<INdepoService, NdepoService>();
             services.AddScoped<INdepoTypeService, NdepoTypeService>();
+            services.AddScoped<IBarnameService, BarnameService>();
+            services.AddScoped<IContractorService, ContractorService>();
+            services.AddScoped<IHavalehService, HavalehService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<INaftkeshService, NaftkeshService>();
+            services.AddScoped<INdepoWorkShiftService, NdepoWorkShiftService>();
+            services.AddScoped<IPermitTypeService, PermitTypeService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddControllers();
         }
 
