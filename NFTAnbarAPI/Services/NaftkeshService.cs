@@ -82,6 +82,7 @@ namespace NFTAnbarAPI.Services
                 from n in _context.Naftkesh
                 from c in _context.Contractor
                 where n.ContractorId == c.Id
+                where n.Id == id
                 select new NaftkeshDTO
                 {
                     Id = n.Id,

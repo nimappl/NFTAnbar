@@ -1,1 +1,190 @@
-<p>permit-modal works!</p>
+<mat-progress-bar *ngIf="reachingOut" mode="indeterminate"></mat-progress-bar>
+<div mat-dialog-content>
+  <h1>{{ title }}</h1>
+  <form #f="ngForm" (ngSubmit)="save()">
+    <div class="w-25">
+      <app-select-with-search
+        label="نوع پروانه"
+        [selectedId]="data.permitTypeId"
+        [service]="permitTypeSrv"
+        (selectedChanged)="permitTypeChanged($event.id)">
+      </app-select-with-search>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label>شناسه پروانه</mat-label>
+          <input type="number" name="permitCode" autocomplete="off" [(ngModel)]="data.permitCode" matNativeControl>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <app-select-with-search
+          label="بارنامه"
+          [selectedId]="data.barnameId"
+          [service]="barnameSrv"
+          (selectedChanged)="barnameChanged($event.id)">
+        </app-select-with-search>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">مشخصات وسیله حمل</div>
+      <div class="card-body">
+        <div class="w-25">
+          <app-select-with-search
+            label="نفتکش"
+            [selectedId]="data.transportNaftkeshId"
+            [service]="naftkeshSrv"
+            (selectedChanged)="naftkeshChanged($event.id)">
+          </app-select-with-search>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>پلاک:</strong><span class="pr-3">{{ naftkesh.plateNumber }}</span></p>
+            <p><strong>کد راننده:</strong><span class="pr-3">{{ naftkesh.driverNationalCode }}</span></p>
+            <p><strong>شماره گواهینامه راننده:</strong><span class="pr-3">{{ naftkesh.driverLicenseNumber }}</span></p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>پیمانکار:</strong><span class="pr-3">{{ naftkesh.contractorName }}</span></p>
+            <p><strong>راننده وسیله حمل:</strong><span class="pr-3">{{ naftkesh.driverName }}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">فرآورده</div>
+      <div class="card-body">
+        <div class="w-25">
+          <app-select-with-search
+            label="فرآورده"
+            [selectedId]="data.productId"
+            [service]="productSrv"
+            (selectedChanged)="productChanged($event.id)">
+          </app-select-with-search>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill">
+              <mat-label>شناسه مخزن فعال تخلیه</mat-label>
+              <input type="number" name="dischargeTankId" autocomplete="off" [(ngModel)]="data.dischargeTankId" matNativeControl>
+            </mat-form-field>
+            <mat-checkbox class="my-3" name="isWeightedProduct" [(ngModel)]="data.isWeightedProduct" labelPosition="before" color="primary">تحویل فرآورده وزنی است؟</mat-checkbox>
+            <app-select-with-search
+              label="نوع ارسال"
+              [selectedId]="data.sendTypeId"
+              [service]="sendTypeSrv"
+              (selectedChanged)="sendTypeChanged($event.id)">
+            </app-select-with-search>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="fill">
+              <mat-label>شناسه مخزن فعال بارگیری</mat-label>
+              <input type="number" name="loadingTankId" autocomplete="off" [(ngModel)]="data.loadingTankId" matNativeControl>
+            </mat-form-field>
+            <mat-checkbox class="my-3" name="importExportExchangable" [(ngModel)]="data.importExportExchangable" labelPosition="before" color="primary">آیا صادرات و وادرات معوض است؟</mat-checkbox>
+            <mat-form-field appearance="fill">
+              <mat-label>مقدار طبیعی</mat-label>
+              <input type="number" name="quantity" autocomplete="off" [(ngModel)]="data.quantity" matNativeControl>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">مشتری محلی</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <app-select-with-search
+              label="ناحیه"
+              [selectedId]="data.orgLocationId"
+              [service]="locationSrv"
+              (selectedChanged)="locationChanged($event.id)">
+            </app-select-with-search>
+            <app-select-with-search
+              label="نام مشتری"
+              [selectedId]="data.customerId"
+              [service]="customerSrv"
+              (selectedChanged)="customerChanged($event.id)">
+            </app-select-with-search>
+          </div>
+          <div class="col-md-6">
+            <app-select-with-search
+              label="شناسه حواله فروش"
+              [selectedId]="data.havalehId"
+              [service]="havalehSrv"
+              (selectedChanged)="havalehIdChanged($event.id)">
+            </app-select-with-search>
+            <p class="my-4"><strong>کد مشتری:</strong><span class="pr-3">{{ customer.nationalCode }}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">سایر اطلاعات</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill">
+              <mat-label>شناسه جایگاه شرکتی</mat-label>
+              <input type="number" name="companyStationId" autocomplete="off" [(ngModel)]="data.companyStationId" matNativeControl>
+            </mat-form-field>
+            <mat-checkbox class="my-2" name="importExportExchangable" [(ngModel)]="data.importExportExchangable" labelPosition="before" color="primary">وسیله نقلیه مربوطه هنوز است:</mat-checkbox>
+            <mat-form-field appearance="fill">
+              <mat-label>شناسه سهمیه روزانه مشتری محلی</mat-label>
+              <input type="number" name="localCustomerQuotaId" autocomplete="off" [(ngModel)]="data.localCustomerQuotaId" matNativeControl>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>پیش نویس فروش مشتری محلی</mat-label>
+              <input type="number" name="localCustomerSellDraftId" autocomplete="off" [(ngModel)]="data.localCustomerSellDraftId" matNativeControl>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>شناسه برنامه تدارکاتی روزانه مربوط به بارگیری</mat-label>
+              <input type="number" name="logisticDetailId" autocomplete="off" [(ngModel)]="data.logisticDetailId" matNativeControl>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>شناسه ناحیه تدارکاتی</mat-label>
+              <input type="number" name="owid" autocomplete="off" [(ngModel)]="data.owid" matNativeControl>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="fill">
+              <mat-label>آخرین بارنامه</mat-label>
+              <input type="number" name="wayBill" autocomplete="off" [(ngModel)]="data.wayBill" matNativeControl>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>شناسه درخواست ارسال مستقیم</mat-label>
+              <input type="number" name="directForwardRequestId" autocomplete="off" [(ngModel)]="data.directForwardRequestId" matNativeControl>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>برنامه لجستیک مشتری محلی</mat-label>
+              <input type="number" name="localCustomerLogisticProgramId" autocomplete="off" [(ngModel)]="data.localCustomerLogisticProgramId" matNativeControl>
+            </mat-form-field>
+            <app-select-with-search
+              label="انتخاب پیمانکار"
+              [selectedId]="data.contractorId"
+              [service]="contractorSrv"
+              (selectedChanged)="contractorChanged($event.id)">
+            </app-select-with-search>
+            <app-select-with-search
+              label="انتخاب شیفت"
+              [selectedId]="data.ndepoWorkShiftId"
+              [service]="depoWorkShiftSrv"
+              (selectedChanged)="workShiftChanged($event.id)">
+            </app-select-with-search>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-secondary ml-2" [mat-dialog-close]="submitted">بستن</button>
+      <button class="btn btn-primary d-flex" type="submit">
+        <div>ثبت</div>
+        <app-loading-spinner-bars
+        color="white"
+        style="height: 25px"
+        class="mr-2"
+        *ngIf="reachingOut"></app-loading-spinner-bars>
+      </button>
+    </div>
+  </form>
+</div>

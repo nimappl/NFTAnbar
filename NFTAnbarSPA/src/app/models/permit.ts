@@ -16,8 +16,8 @@ export class Permit {
   localCustomerQuotaId: number;
   localCustomerSellDraftId: number;
   LogisticDetailId: number;
-  OrgLocationId: number;
-  OrgLocationName: string;
+  orgLocationId: number;
+  orgLocationName: string;
   importExportExchangable: boolean;
   owid: number;
   permitCode: number;

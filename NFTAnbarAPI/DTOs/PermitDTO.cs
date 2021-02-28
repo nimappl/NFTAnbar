@@ -11,7 +11,7 @@ namespace NFTAnbarAPI.DTOs
         public long? DirectForwardRequestId { get; set; }
         public long? DischargeTankId { get; set; }
         public long? HavalehId { get; set; }
-        public string HavalehName { get; set; }
+        public long? HavalehName { get; set; }
         public bool? InTheArea { get; set; }
         public bool? IsWeightedProduct { get; set; }
         public long? LoadingTankId { get; set; }

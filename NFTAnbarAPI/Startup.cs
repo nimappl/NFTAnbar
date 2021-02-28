@@ -36,6 +36,7 @@ namespace NFTAnbarAPI
             services.AddScoped<IPermitTypeService, PermitTypeService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ISendTypeService, SendTypeService>();
+            services.AddScoped<IPermitService, PermitService>();
             services.AddControllers();
         }
 
