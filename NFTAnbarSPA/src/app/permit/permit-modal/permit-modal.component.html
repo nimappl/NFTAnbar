@@ -7,17 +7,17 @@
         label="نوع پروانه"
         [selectedId]="data.permitTypeId"
         [service]="permitTypeSrv"
-        (selectedChanged)="permitTypeChanged($event.id)">
+        (selectedChanged)="permitTypeChanged($event)">
       </app-select-with-search>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="permitType">
       <div class="col-md-6">
         <mat-form-field appearance="fill">
           <mat-label>شناسه پروانه</mat-label>
           <input type="number" name="permitCode" autocomplete="off" [(ngModel)]="data.permitCode" matNativeControl>
         </mat-form-field>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" *ngIf="permitType === 'enheraf'">
         <app-select-with-search
           label="بارنامه"
           [selectedId]="data.barnameId"
@@ -26,7 +26,7 @@
         </app-select-with-search>
       </div>
     </div>
-    <div class="card mb-3">
+    <div class="card mb-3" *ngIf="permitType">
       <div class="card-header">مشخصات وسیله حمل</div>
       <div class="card-body">
         <div class="w-25">
@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="card mb-3">
+    <div class="card mb-3" *ngIf="permitType !== 'shostoshu' && permitType">
       <div class="card-header">فرآورده</div>
       <div class="card-body">
         <div class="w-25">
@@ -89,7 +89,7 @@
         </div>
       </div>
     </div>
-    <div class="card mb-3">
+    <div class="card mb-3" *ngIf="permitType && sendType && permitType !== 'shostoshu' && sendType === 'localcustomer'">
       <div class="card-header">مشتری محلی</div>
       <div class="card-body">
         <div class="row">
@@ -119,7 +119,7 @@
         </div>
       </div>
     </div>
-    <div class="card mb-3">
+    <div class="card mb-3" *ngIf="permitType !== 'shostoshu' && permitType">
       <div class="card-header">سایر اطلاعات</div>
       <div class="card-body">
         <div class="row">
@@ -128,7 +128,7 @@
               <mat-label>شناسه جایگاه شرکتی</mat-label>
               <input type="number" name="companyStationId" autocomplete="off" [(ngModel)]="data.companyStationId" matNativeControl>
             </mat-form-field>
-            <mat-checkbox class="my-2" name="importExportExchangable" [(ngModel)]="data.importExportExchangable" labelPosition="before" color="primary">وسیله نقلیه مربوطه هنوز است:</mat-checkbox>
+            <mat-checkbox class="my-2" name="importExportExchangable" [(ngModel)]="data.importExportExchangable" labelPosition="before" color="primary">وسیله نقلیه مربوطه هنوز در انبار است:</mat-checkbox>
             <mat-form-field appearance="fill">
               <mat-label>شناسه سهمیه روزانه مشتری محلی</mat-label>
               <input type="number" name="localCustomerQuotaId" autocomplete="off" [(ngModel)]="data.localCustomerQuotaId" matNativeControl>

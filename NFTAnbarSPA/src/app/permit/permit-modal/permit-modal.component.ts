@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Customer } from 'src/app/models/customer';
 import { Naftkesh } from 'src/app/models/naftkesh';
 import { Permit } from 'src/app/models/permit';
+import { PermitType } from 'src/app/models/permitType';
 import { BarnameService } from 'src/app/services/barname.service';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { CustomerService } from 'src/app/services/customer.service';
@@ -29,9 +30,11 @@ export class PermitModalComponent implements OnInit {
 
   naftkesh: Naftkesh = new Naftkesh();
   customer: Customer = new Customer();
+  permitType: string;
+  sendType: string;
 
   constructor(public dialogRef: MatDialogRef<PermitModalComponent>,
-              @Inject(MAT_DIALOG_DATA) public data,
+              @Inject(MAT_DIALOG_DATA) public data: Permit,
               public permitSrv: PermitService,
               public permitTypeSrv: PermitTypeService,
               public barnameSrv: BarnameService,
@@ -47,13 +50,10 @@ export class PermitModalComponent implements OnInit {
   ngOnInit(): void {
     if (!this.data.permitCode) {
       this.mode = 'new';
-      this.title = 'جدید'
+      this.title = 'جدید';
     } else {
-      this.title = 'ویرایش'
+      this.title = 'ویرایش';
       this.mode = 'edit';
-    }
-
-    if (this.mode === 'edit') {
       this.naftkeshSrv.getById(this.data.transportNaftkeshId).subscribe(res => {
         this.naftkesh = res;
       });
@@ -61,43 +61,73 @@ export class PermitModalComponent implements OnInit {
         this.customer = res;
       });
     }
+    this.shitChanged();
   }
 
-  permitTypeChanged(id: number) {
-    this.data.permitTypeId = id;
+  shitChanged() {
+    if (this.data.permitTypeId) {
+      if (this.data.permitTypeId == 2)
+          this.permitType = 'bargiri';
+      if (this.data.permitTypeId == 3 || this.data.permitTypeId == 4 || this.data.permitTypeId == 5)
+        this.permitType = 'enheraf';
+      if (this.data.permitTypeId == 6)
+        this.permitType = 'shostoshu';
+    }
+
+    if (this.data.sendTypeId) {
+      if (this.data.sendTypeId == 2)
+        this.sendType = 'localcustomer';
+      if (this.data.sendTypeId == 3)
+        this.sendType = 'tadarokati';
+    }
+  }
+
+  permitTypeChanged(value: PermitType) {
+    this.data.permitTypeId = value.id;
+    this.data.permitTypeName = value.name;
+    this.shitChanged();
   }
   barnameChanged(id: number) {
     this.data.barnameId = id;
+    this.shitChanged();
   }
   naftkeshChanged(id: number) {
     this.data.transportNaftkeshId = id;
     this.naftkeshSrv.getById(id).subscribe(res => {
       this.naftkesh = res;
     });
+    this.shitChanged();
   }
   productChanged(id: number) {
     this.data.productId = id;
+    this.shitChanged();
   }
   sendTypeChanged(id: number) {
     this.data.sendTypeId = id;
+    this.shitChanged();
   }
   locationChanged(id: number) {
     this.data.orgLocationId = id;
+    this.shitChanged();
   }
   customerChanged(id: number) {
     this.data.customerId = id;
     this.customerSrv.getById(id).subscribe(res => {
       this.customer = res;
     });
+    this.shitChanged();
   }
   havalehIdChanged(id: number) {
     this.data.havalehId = id;
+    this.shitChanged();
   }
   contractorChanged(id: number) {
     this.data.contractorId = id;
+    this.shitChanged();
   }
   workShiftChanged(id: number) {
     this.data.ndepoWorkShiftId = id;
+    this.shitChanged();
   }
 
   save() {
