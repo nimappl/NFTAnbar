@@ -10,11 +10,12 @@
         (selectedChanged)="permitTypeChanged($event)">
       </app-select-with-search>
     </div>
-    <div class="row" *ngIf="permitType">
+    <div class="row mb-1" *ngIf="permitType">
       <div class="col-md-6">
         <mat-form-field appearance="fill">
           <mat-label>شناسه پروانه</mat-label>
-          <input type="number" name="permitCode" autocomplete="off" [(ngModel)]="data.permitCode" matNativeControl>
+          <input type="number" name="permitCode" autocomplete="off" required [(ngModel)]="data.permitCode" #permitCode="ngModel" matNativeControl>
+          <mat-error *ngIf="permitCode.invalid || permitCode.pristine">این فیلد الزامیست</mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-6" *ngIf="permitType === 'enheraf'">
@@ -177,7 +178,7 @@
     </div>
     <div class="d-flex justify-content-end">
       <button class="btn btn-secondary ml-2" [mat-dialog-close]="submitted">بستن</button>
-      <button class="btn btn-primary d-flex" type="submit">
+      <button class="btn btn-primary d-flex" type="submit" [disabled]="f.form.invalid || !permitType">
         <div>ثبت</div>
         <app-loading-spinner-bars
         color="white"

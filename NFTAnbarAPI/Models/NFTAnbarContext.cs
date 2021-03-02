@@ -452,6 +452,11 @@ namespace NFTAnbarAPI.Models
                     .WithMany(p => p.Permit)
                     .HasForeignKey(d => d.SendTypeId)
                     .HasConstraintName("FK_Permit_SendType");
+
+                entity.HasOne(d => d.TransportNaftkesh)
+                    .WithMany(p => p.Permit)
+                    .HasForeignKey(d => d.TransportNaftkeshId)
+                    .HasConstraintName("FK_Permit_Naftkesh");
             });
 
             modelBuilder.Entity<PermitType>(entity =>

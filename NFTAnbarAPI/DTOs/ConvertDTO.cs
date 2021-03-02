@@ -142,9 +142,9 @@ namespace NFTAnbarAPI.DTOs
                 PlateNumber = naftkesh.PlateNumber,
                 DriverName = naftkesh.DriverName,
                 DriverNationalCode = naftkesh.DriverNationalCode,
-                DriverLicenseNumber = naftkesh.DriverLicenseNumber,
-                ContractorId = naftkesh.ContractorId,
-                Active = naftkesh.Active
+                DriverLicenseNumber = naftkesh.DriverLicenseNumber,  
+                ContractorId = naftkesh.Contractor.Id,
+                ContractorName = naftkesh.Contractor.Name
             };
 
         public static Naftkesh NaftkeshDTOToModel(NaftkeshDTO dto) =>

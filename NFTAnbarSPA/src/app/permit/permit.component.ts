@@ -18,7 +18,7 @@ export class PermitComponent implements OnInit {
     {name: 'BarnameName', title: 'بارنامه'},
     {name: 'CustomerName', title: 'نام مشتری'},
     {name: 'PermitCode', title: 'شناسه پروانه'},
-    {name: 'NaftkeshName', title: 'نفتکش'},
+    {name: 'TransportNaftkeshName', title: 'نفتکش'},
     {name: 'ProductName', title: 'فرآورده'}
   ];
   fieldsNotToShow = ['id', 'active', 'havalehName', 'inTheArea', 'isWeightedProduct', 'orgLocationName', 'importExportExchangable', 'owid', 'quantity', 'sendTypeName', 'contractorName', 'wayBill', 'ndepoWorkShiftName', 'permitTypeName'];

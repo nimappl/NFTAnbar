@@ -51,5 +51,6 @@ namespace NFTAnbarAPI.Models
         public virtual PermitType PermitType { get; set; }
         public virtual Product Product { get; set; }
         public virtual SendType SendType { get; set; }
+        public virtual Naftkesh TransportNaftkesh { get; set; }
     }
 }

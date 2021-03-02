@@ -5,6 +5,11 @@ namespace NFTAnbarAPI.Models
 {
     public partial class Naftkesh
     {
+        public Naftkesh()
+        {
+            Permit = new HashSet<Permit>();
+        }
+
         public long Id { get; set; }
         public string Name { get; set; }
         public string PlateNumber { get; set; }
@@ -23,5 +28,6 @@ namespace NFTAnbarAPI.Models
         public DateTime? DaDate { get; set; }
 
         public virtual Contractor Contractor { get; set; }
+        public virtual ICollection<Permit> Permit { get; set; }
     }
 }

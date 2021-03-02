@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
@@ -29,94 +30,74 @@ namespace NFTAnbarAPI.Services
 
         public async Task<GridData<PermitDTO>> Get(GridData<PermitDTO> qParams)
         {
-            IQueryable<PermitDTO> query =
-            from permit in _context.Permit
-            from permitType in _context.PermitType
-            from barname in _context.Barname
-            from customer in _context.Customer
-            from havaleh in _context.Havaleh
-            from city in _context.City
-            from sendType in _context.SendType
-            from naftkesh in _context.Naftkesh
-            from contractor in _context.Contractor
-            from depoWorkShift in _context.NdepoWorkShift
-            from product in _context.Product
-            where permit.PermitTypeId == permitType.Id
-            where permit.BarnameId == barname.Id
-            where permit.CustomerId == customer.Id
-            where permit.HavalehId == havaleh.Id
-            where permit.OrgLocationId == city.Id
-            where permit.SendTypeId == sendType.Id
-            where permit.TransportNaftkeshId == naftkesh.Id
-            where permit.ContractorId == contractor.Id
-            where permit.NdepoWorkShiftId == depoWorkShift.Id
-            where permit.ProductId == product.Id
-            select new PermitDTO
+            var query = _context.Permit as IQueryable<Permit>;
+            IQueryable<PermitDTO> result = query.Select(p =>
+            new PermitDTO
             {
-                Id = permit.Id,
-                BarnameId = permit.BarnameId,
-                BarnameName = barname.Name,
-                CompanyStationId = permit.CompanyStationId,
-                CustomerId = permit.CustomerId,
-                CustomerName = customer.Name,
-                DirectForwardRequestId = permit.DirectForwardRequestId,
-                DischargeTankId = permit.DischargeTankId,
-                HavalehId = permit.HavalehId,
-                HavalehName = havaleh.Name,
-                InTheArea = permit.InTheArea,
-                IsWeightedProduct = permit.IsWeightedProduct,
-                LoadingTankId = permit.LoadingTankId,
-                LocalCustomerLogisticProgramId = permit.LocalCustomerLogisticProgramId,
-                LocalCustomerQuotaId = permit.LocalCustomerQuotaId,
-                LocalCustomerSellDraftId = permit.LocalCustomerSellDraftId,
-                LogisticDetailId = permit.LogisticDetailId,
-                OrgLocationId = permit.OrgLocationId,
-                OrgLocationName = city.Name,
-                ImportExportExchangable = permit.ImportExportExchangable,
-                Owid = permit.Owid,
-                PermitCode = permit.PermitCode,
-                Quantity = permit.Quantity,
-                SendTypeId = permit.SendTypeId,
-                SendTypeName = sendType.Name,
-                TransportNaftkeshId = permit.TransportNaftkeshId,
-                TransportNaftkeshName = naftkesh.Name,
-                UcdoneStatusId = permit.UcdoneStatusId,
-                ContractorId = permit.ContractorId,
-                ContractorName = contractor.Name,
-                WayBill = permit.WayBill,
-                NdepoWorkShiftId = permit.NdepoWorkShiftId,
-                NdepoWorkShiftName = depoWorkShift.Name,
-                ProductId = permit.ProductId,
-                ProductName = product.Name,
-                PermitTypeId = permit.PermitTypeId,
-                PermitTypeName = permitType.Name,
-                Active = permit.Active
-            };
+                Id = p.Id,
+                BarnameId = p.BarnameId,
+                BarnameName = p.Barname.Name,
+                CompanyStationId = p.CompanyStationId,
+                CustomerId = p.CustomerId,
+                CustomerName = p.Customer.Name,
+                DirectForwardRequestId = p.DirectForwardRequestId,
+                DischargeTankId = p.DischargeTankId,
+                HavalehId = p.HavalehId,
+                HavalehName = p.Havaleh.Name,
+                InTheArea = p.InTheArea,
+                IsWeightedProduct = p.IsWeightedProduct,
+                LoadingTankId = p.LoadingTankId,
+                LocalCustomerLogisticProgramId = p.LocalCustomerLogisticProgramId,
+                LocalCustomerQuotaId = p.LocalCustomerQuotaId,
+                LocalCustomerSellDraftId = p.LocalCustomerSellDraftId,
+                LogisticDetailId = p.LogisticDetailId,
+                OrgLocationId = p.OrgLocationId,
+                OrgLocationName = p.OrgLocation.Name,
+                ImportExportExchangable = p.ImportExportExchangable,
+                Owid = p.Owid,
+                PermitCode = p.PermitCode,
+                Quantity = p.Quantity,
+                SendTypeId = p.SendTypeId,
+                SendTypeName = p.SendType.Name,
+                TransportNaftkeshId = p.TransportNaftkeshId,
+                TransportNaftkeshName = p.TransportNaftkesh.Name,
+                UcdoneStatusId = p.UcdoneStatusId,
+                ContractorId = p.ContractorId,
+                ContractorName = p.Contractor.Name,
+                WayBill = p.WayBill,
+                NdepoWorkShiftId = p.NdepoWorkShiftId,
+                NdepoWorkShiftName = p.NdepoWorkShift.Name,
+                ProductId = p.ProductId,
+                ProductName = p.Product.Name,
+                PermitTypeId = p.PermitTypeId,
+                PermitTypeName = p.PermitType.Name,
+                Active = p.Active
+            });
             int count;
             if (qParams.Filters != null)
             {
                 foreach (Filter filter in qParams.Filters)
                 {
                     if (filter.Key == "BarnameName")
-                        query = query.Where(p => p.BarnameName.Contains(filter.Value));
+                        result = result.Where(p => p.BarnameName.Contains(filter.Value));
                     if (filter.Key == "CustomerName")
-                        query = query.Where(p => p.CustomerName.Contains(filter.Value));
+                        result = result.Where(p => p.CustomerName.Contains(filter.Value));
                     if (filter.Key == "PermitCode")
-                        query = query.Where(p => p.PermitCode == Int32.Parse(filter.Value));
+                        result = result.Where(p => p.PermitCode == Int32.Parse(filter.Value));
                     if (filter.Key == "TransportNaftkeshName")
-                        query = query.Where(p => p.TransportNaftkeshName.Contains(filter.Value));
+                        result = result.Where(p => p.TransportNaftkeshName.Contains(filter.Value));
                     if (filter.Key == "ProductName")
-                        query = query.Where(p => p.ProductName.Contains(filter.Value));
+                        result = result.Where(p => p.ProductName.Contains(filter.Value));
                 }
             }
 
-            count = await query.CountAsync();
-            query = query.OrderBy(qParams.SortBy + (qParams.SortType == SortType.Asc ? " asc" : " desc"));
-            query = query.Skip((qParams.PageNumber - 1) * qParams.PageSize).Take(qParams.PageSize);
+            count = await result.CountAsync();
+            result = result.OrderBy(qParams.SortBy + (qParams.SortType == SortType.Asc ? " asc" : " desc"));
+            result = result.Skip((qParams.PageNumber - 1) * qParams.PageSize).Take(qParams.PageSize);
 
             return new GridData<PermitDTO>
             {
-                Data = await query.ToListAsync(),
+                Data = await result.ToListAsync(),
                 Count = count,
                 PageNumber = qParams.PageNumber,
                 PageSize = qParams.PageSize,
@@ -128,69 +109,47 @@ namespace NFTAnbarAPI.Services
 
         public async Task<PermitDTO> GetById(long id)
         {
-            return await (
-            from permit in _context.Permit
-            from permitType in _context.PermitType
-            from barname in _context.Barname
-            from customer in _context.Customer
-            from havaleh in _context.Havaleh
-            from city in _context.City
-            from sendType in _context.SendType
-            from naftkesh in _context.Naftkesh
-            from contractor in _context.Contractor
-            from depoWorkShift in _context.NdepoWorkShift
-            from product in _context.Product
-            where permit.PermitTypeId == permitType.Id
-            where permit.BarnameId == barname.Id
-            where permit.CustomerId == customer.Id
-            where permit.HavalehId == havaleh.Id
-            where permit.OrgLocationId == city.Id
-            where permit.SendTypeId == sendType.Id
-            where permit.TransportNaftkeshId == naftkesh.Id
-            where permit.ContractorId == contractor.Id
-            where permit.NdepoWorkShiftId == depoWorkShift.Id
-            where permit.ProductId == product.Id
-            where permit.Id == id
-            select new PermitDTO
+            return await _context.Permit.Where(p => p.Id == id).Select(p =>
+            new PermitDTO
             {
-                Id = permit.Id,
-                BarnameId = permit.BarnameId,
-                BarnameName = barname.Name,
-                CompanyStationId = permit.CompanyStationId,
-                CustomerId = permit.CustomerId,
-                CustomerName = customer.Name,
-                DirectForwardRequestId = permit.DirectForwardRequestId,
-                DischargeTankId = permit.DischargeTankId,
-                HavalehId = permit.HavalehId,
-                HavalehName = havaleh.Name,
-                InTheArea = permit.InTheArea,
-                IsWeightedProduct = permit.IsWeightedProduct,
-                LoadingTankId = permit.LoadingTankId,
-                LocalCustomerLogisticProgramId = permit.LocalCustomerLogisticProgramId,
-                LocalCustomerQuotaId = permit.LocalCustomerQuotaId,
-                LocalCustomerSellDraftId = permit.LocalCustomerSellDraftId,
-                LogisticDetailId = permit.LogisticDetailId,
-                OrgLocationId = permit.OrgLocationId,
-                OrgLocationName = city.Name,
-                ImportExportExchangable = permit.ImportExportExchangable,
-                Owid = permit.Owid,
-                PermitCode = permit.PermitCode,
-                Quantity = permit.Quantity,
-                SendTypeId = permit.SendTypeId,
-                SendTypeName = sendType.Name,
-                TransportNaftkeshId = permit.TransportNaftkeshId,
-                TransportNaftkeshName = naftkesh.Name,
-                UcdoneStatusId = permit.UcdoneStatusId,
-                ContractorId = permit.ContractorId,
-                ContractorName = contractor.Name,
-                WayBill = permit.WayBill,
-                NdepoWorkShiftId = permit.NdepoWorkShiftId,
-                NdepoWorkShiftName = depoWorkShift.Name,
-                ProductId = permit.ProductId,
-                ProductName = product.Name,
-                PermitTypeId = permit.PermitTypeId,
-                PermitTypeName = permitType.Name,
-                Active = permit.Active
+                Id = p.Id,
+                BarnameId = p.BarnameId,
+                BarnameName = p.Barname.Name,
+                CompanyStationId = p.CompanyStationId,
+                CustomerId = p.CustomerId,
+                CustomerName = p.Customer.Name,
+                DirectForwardRequestId = p.DirectForwardRequestId,
+                DischargeTankId = p.DischargeTankId,
+                HavalehId = p.HavalehId,
+                HavalehName = p.Havaleh.Name,
+                InTheArea = p.InTheArea,
+                IsWeightedProduct = p.IsWeightedProduct,
+                LoadingTankId = p.LoadingTankId,
+                LocalCustomerLogisticProgramId = p.LocalCustomerLogisticProgramId,
+                LocalCustomerQuotaId = p.LocalCustomerQuotaId,
+                LocalCustomerSellDraftId = p.LocalCustomerSellDraftId,
+                LogisticDetailId = p.LogisticDetailId,
+                OrgLocationId = p.OrgLocationId,
+                OrgLocationName = p.OrgLocation.Name,
+                ImportExportExchangable = p.ImportExportExchangable,
+                Owid = p.Owid,
+                PermitCode = p.PermitCode,
+                Quantity = p.Quantity,
+                SendTypeId = p.SendTypeId,
+                SendTypeName = p.SendType.Name,
+                TransportNaftkeshId = p.TransportNaftkeshId,
+                TransportNaftkeshName = p.TransportNaftkesh.Name,
+                UcdoneStatusId = p.UcdoneStatusId,
+                ContractorId = p.ContractorId,
+                ContractorName = p.Contractor.Name,
+                WayBill = p.WayBill,
+                NdepoWorkShiftId = p.NdepoWorkShiftId,
+                NdepoWorkShiftName = p.NdepoWorkShift.Name,
+                ProductId = p.ProductId,
+                ProductName = p.Product.Name,
+                PermitTypeId = p.PermitTypeId,
+                PermitTypeName = p.PermitType.Name,
+                Active = p.Active
             }).FirstOrDefaultAsync();
         }
 
