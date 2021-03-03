@@ -6,14 +6,17 @@ using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace NFTAnbarAPI.Services
 {
     public class PermitService : IPermitService
     {
         private readonly NFTAnbarContext _context;
-        public PermitService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public PermitService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -30,8 +33,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<GridData<PermitDTO>> Get(GridData<PermitDTO> qParams)
         {
-            var query = _context.Permit as IQueryable<Permit>;
-            IQueryable<PermitDTO> result = query.Select(p =>
+            IQueryable<PermitDTO> query = _context.Permit.Select(p =>
             new PermitDTO
             {
                 Id = p.Id,
@@ -79,25 +81,25 @@ namespace NFTAnbarAPI.Services
                 foreach (Filter filter in qParams.Filters)
                 {
                     if (filter.Key == "BarnameName")
-                        result = result.Where(p => p.BarnameName.Contains(filter.Value));
+                        query = query.Where(p => p.BarnameName.Contains(filter.Value));
                     if (filter.Key == "CustomerName")
-                        result = result.Where(p => p.CustomerName.Contains(filter.Value));
+                        query = query.Where(p => p.CustomerName.Contains(filter.Value));
                     if (filter.Key == "PermitCode")
-                        result = result.Where(p => p.PermitCode == Int32.Parse(filter.Value));
+                        query = query.Where(p => p.PermitCode == Int32.Parse(filter.Value));
                     if (filter.Key == "TransportNaftkeshName")
-                        result = result.Where(p => p.TransportNaftkeshName.Contains(filter.Value));
+                        query = query.Where(p => p.TransportNaftkeshName.Contains(filter.Value));
                     if (filter.Key == "ProductName")
-                        result = result.Where(p => p.ProductName.Contains(filter.Value));
+                        query = query.Where(p => p.ProductName.Contains(filter.Value));
                 }
             }
 
-            count = await result.CountAsync();
-            result = result.OrderBy(qParams.SortBy + (qParams.SortType == SortType.Asc ? " asc" : " desc"));
-            result = result.Skip((qParams.PageNumber - 1) * qParams.PageSize).Take(qParams.PageSize);
+            count = await query.CountAsync();
+            query = query.OrderBy(qParams.SortBy + (qParams.SortType == SortType.Asc ? " asc" : " desc"));
+            query = query.Skip((qParams.PageNumber - 1) * qParams.PageSize).Take(qParams.PageSize);
 
             return new GridData<PermitDTO>
             {
-                Data = await result.ToListAsync(),
+                Data = await query.ToListAsync(),
                 Count = count,
                 PageNumber = qParams.PageNumber,
                 PageSize = qParams.PageSize,

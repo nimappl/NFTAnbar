@@ -4,20 +4,24 @@ using NFTAnbarAPI.DTOs;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
     public class ContractorService : IContractorService
     {
         private readonly NFTAnbarContext _context;
-        public ContractorService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public ContractorService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(ContractorDTO dto)
         {
-            _context.Contractor.Add(ConvertDTO.ContractorDTOToModel(dto));
+            _context.Contractor.Add(_mapper.Map<Contractor>(dto));
         }
 
         public async Task Delete(long id)
@@ -45,7 +49,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<ContractorDTO>
             {
-                Data = await query.Select(c => ConvertDTO.ContractorModelToDTO(c)).ToListAsync(),
+                Data = _mapper.Map<List<ContractorDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -57,7 +61,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<ContractorDTO> GetById(long id)
         {
-            return ConvertDTO.ContractorModelToDTO(await _context.Contractor.FindAsync(id));
+            return _mapper.Map<ContractorDTO>(await _context.Contractor.FindAsync(id));
         }
 
         public async Task Update(ContractorDTO dto)

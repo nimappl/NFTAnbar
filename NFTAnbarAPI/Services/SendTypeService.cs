@@ -4,20 +4,24 @@ using NFTAnbarAPI.DTOs;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
     public class SendTypeService : ISendTypeService
     {
         private readonly NFTAnbarContext _context;
-        public SendTypeService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public SendTypeService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(SendTypeDTO dto)
         {
-            _context.SendType.Add(ConvertDTO.SendTypeDTOToModel(dto));
+            _context.SendType.Add(_mapper.Map<SendType>(dto));
         }
 
         public async Task Delete(long id)
@@ -45,7 +49,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<SendTypeDTO>
             {
-                Data = await query.Select(c => ConvertDTO.SendTypeModelToDTO(c)).ToListAsync(),
+                Data = _mapper.Map<List<SendTypeDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -57,7 +61,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<SendTypeDTO> GetById(long id)
         {
-            return ConvertDTO.SendTypeModelToDTO(await _context.SendType.FindAsync(id));
+            return _mapper.Map<SendTypeDTO>(await _context.SendType.FindAsync(id));
         }
 
         public async Task Update(SendTypeDTO dto)

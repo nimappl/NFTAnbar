@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using NFTAnbarAPI.Models;
 using NFTAnbarAPI.Services;
+using System;
 
 namespace NFTAnbarAPI
 {
@@ -24,6 +25,8 @@ namespace NFTAnbarAPI
             services.AddCors();
             services.AddDbContext<NFTAnbarContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddControllers();
+            services.AddAutoMapper(typeof(CityService).Assembly);
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<INdepoService, NdepoService>();
             services.AddScoped<INdepoTypeService, NdepoTypeService>();
@@ -37,7 +40,6 @@ namespace NFTAnbarAPI
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ISendTypeService, SendTypeService>();
             services.AddScoped<IPermitService, PermitService>();
-            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NFTAnbarAPI.DTOs;
 using NFTAnbarAPI.Models;
@@ -11,8 +12,10 @@ namespace NFTAnbarAPI.Services
     public class NdepoService : INdepoService
     {
         private readonly NFTAnbarContext _context;
-        public NdepoService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public NdepoService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
 
         }
@@ -48,10 +51,12 @@ namespace NFTAnbarAPI.Services
                 };
             int count;
 
-            if (qParams.Filters != null) {
+            if (qParams.Filters != null)
+            {
                 foreach (Filter filter in qParams.Filters)
                 {
-                    switch(filter.Key) {
+                    switch (filter.Key)
+                    {
                         case "Name":
                             query = query.Where(d => d.Name.Contains(filter.Value));
                             break;

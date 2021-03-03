@@ -5,20 +5,24 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
     public class HavalehService : IHavalehService
     {
         private readonly NFTAnbarContext _context;
-        public HavalehService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public HavalehService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(HavalehDTO dto)
         {
-            _context.Havaleh.Add(ConvertDTO.HavalehDTOToModel(dto));
+            _context.Havaleh.Add(_mapper.Map<Havaleh>(dto));
         }
 
         public async Task Delete(long id)
@@ -46,7 +50,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<HavalehDTO>
             {
-                Data = await query.Select(c => ConvertDTO.HavalehModelToDTO(c)).ToListAsync(),
+                Data = _mapper.Map<List<HavalehDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -58,7 +62,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<HavalehDTO> GetById(long id)
         {
-            return ConvertDTO.HavalehModelToDTO(await _context.Havaleh.FindAsync(id));
+            return _mapper.Map<HavalehDTO>(await _context.Havaleh.FindAsync(id));
         }
 
         public async Task Update(HavalehDTO dto)

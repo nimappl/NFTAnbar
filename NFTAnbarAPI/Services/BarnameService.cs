@@ -4,20 +4,24 @@ using NFTAnbarAPI.DTOs;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
     public class BarnameService : IBarnameService
     {
         private readonly NFTAnbarContext _context;
-        public BarnameService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public BarnameService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(BarnameDTO dto)
         {
-            _context.Barname.Add(ConvertDTO.BarnameDTOToModel(dto));
+            _context.Barname.Add(_mapper.Map<Barname>(dto));
         }
 
         public async Task Delete(long id)
@@ -45,7 +49,8 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<BarnameDTO>
             {
-                Data = await query.Select(c => ConvertDTO.BarnameModelToDTO(c)).ToListAsync(),
+                // Data = await query.Select(c => ConvertDTO.BarnameModelToDTO(c)).ToListAsync(),
+                Data = _mapper.Map<List<BarnameDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -57,7 +62,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<BarnameDTO> GetById(long id)
         {
-            return ConvertDTO.BarnameModelToDTO(await _context.Barname.FindAsync(id));
+            return _mapper.Map<BarnameDTO>(await _context.Barname.FindAsync(id));
         }
 
         public async Task Update(BarnameDTO dto)

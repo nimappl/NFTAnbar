@@ -6,14 +6,17 @@ using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System;
+using AutoMapper;
 
 namespace NFTAnbarAPI.Services
 {
     public class NaftkeshService : INaftkeshService
     {
         private readonly NFTAnbarContext _context;
-        public NaftkeshService(NFTAnbarContext context)
+        private readonly IMapper mapper;
+        public NaftkeshService(NFTAnbarContext context, IMapper mapper)
         {
+            this.mapper = mapper;
             _context = context;
         }
 
@@ -30,8 +33,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<GridData<NaftkeshDTO>> Get(GridData<NaftkeshDTO> qParams)
         {
-            var query = _context.Naftkesh as IQueryable<Naftkesh>;
-            IQueryable<NaftkeshDTO> result = query.Select(n =>
+            IQueryable<NaftkeshDTO> query = _context.Naftkesh.Select(n =>
                 new NaftkeshDTO
                 {
                     Id = n.Id,
@@ -50,23 +52,23 @@ namespace NFTAnbarAPI.Services
                 foreach (Filter filter in qParams.Filters)
                 {
                     if (filter.Key == "Name")
-                        result = result.Where(c => c.Name.Contains(filter.Value));
+                        query = query.Where(c => c.Name.Contains(filter.Value));
                     if (filter.Key == "PlateNumber")
-                        result = result.Where(c => c.PlateNumber.Contains(filter.Value));
+                        query = query.Where(c => c.PlateNumber.Contains(filter.Value));
                     if (filter.Key == "DriverName")
-                        result = result.Where(c => c.DriverName.Contains(filter.Value));
+                        query = query.Where(c => c.DriverName.Contains(filter.Value));
                     if (filter.Key == "ContractorName")
-                        result = result.Where(c => c.ContractorName.Contains(filter.Value));
+                        query = query.Where(c => c.ContractorName.Contains(filter.Value));
                 }
             }
 
-            count = await result.CountAsync();
-            result = result.OrderBy(qParams.SortBy + (qParams.SortType == SortType.Asc ? " asc" : " desc"));
-            result = result.Skip((qParams.PageNumber - 1) * qParams.PageSize).Take(qParams.PageSize);
+            count = await query.CountAsync();
+            query = query.OrderBy(qParams.SortBy + (qParams.SortType == SortType.Asc ? " asc" : " desc"));
+            query = query.Skip((qParams.PageNumber - 1) * qParams.PageSize).Take(qParams.PageSize);
 
             return new GridData<NaftkeshDTO>
             {
-                Data = await result.ToListAsync(),
+                Data = await query.ToListAsync(),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -91,8 +93,7 @@ namespace NFTAnbarAPI.Services
                     DriverLicenseNumber = n.DriverLicenseNumber,  
                     ContractorId = n.Contractor.Id,
                     ContractorName = n.Contractor.Name
-                })
-                .FirstOrDefaultAsync();
+                }).FirstOrDefaultAsync();
         }
 
         public async Task Update(NaftkeshDTO dto)

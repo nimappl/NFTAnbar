@@ -4,20 +4,24 @@ using NFTAnbarAPI.DTOs;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
     public class NdepoWorkShiftService : INdepoWorkShiftService
     {
         private readonly NFTAnbarContext _context;
-        public NdepoWorkShiftService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public NdepoWorkShiftService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(NdepoWorkShiftDTO dto)
         {
-            _context.NdepoWorkShift.Add(ConvertDTO.NdepoWorkShiftDTOToModel(dto));
+            _context.NdepoWorkShift.Add(_mapper.Map<NdepoWorkShift>(dto));
         }
 
         public async Task Delete(long id)
@@ -45,7 +49,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<NdepoWorkShiftDTO>
             {
-                Data = await query.Select(c => ConvertDTO.NdepoWorkShiftModelToDTO(c)).ToListAsync(),
+                Data = _mapper.Map<List<NdepoWorkShiftDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -57,7 +61,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<NdepoWorkShiftDTO> GetById(long id)
         {
-            return ConvertDTO.NdepoWorkShiftModelToDTO(await _context.NdepoWorkShift.FindAsync(id));
+            return _mapper.Map<NdepoWorkShiftDTO>(await _context.NdepoWorkShift.FindAsync(id));
         }
 
         public async Task Update(NdepoWorkShiftDTO dto)

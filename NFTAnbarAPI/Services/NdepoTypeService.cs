@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NFTAnbarAPI.DTOs;
 using NFTAnbarAPI.Models;
@@ -11,14 +13,16 @@ namespace NFTAnbarAPI.Services
     public class NdepoTypeService : INdepoTypeService
     {
         private readonly NFTAnbarContext _context;
-        public NdepoTypeService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public NdepoTypeService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
 
         }
         public void Create(NdepoTypeDTO dto)
         {
-            _context.NdepoType.Add(ConvertDTO.NdepoTypeDTOToModel(dto));
+            _context.NdepoType.Add(_mapper.Map<NdepoType>(dto));
         }
 
         public async Task Delete(long id)
@@ -50,7 +54,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<NdepoTypeDTO>
             {
-                Data = await query.Select(d => ConvertDTO.NdepoTypeModelToDTO(d)).ToListAsync(),
+                Data = _mapper.Map<List<NdepoTypeDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -62,7 +66,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<NdepoTypeDTO> GetById(long id)
         {
-            return ConvertDTO.NdepoTypeModelToDTO(await _context.NdepoType.FindAsync(id));
+            return _mapper.Map<NdepoTypeDTO>(await _context.NdepoType.FindAsync(id));
         }
 
         public async Task Update(NdepoTypeDTO dto)

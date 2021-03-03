@@ -4,20 +4,24 @@ using NFTAnbarAPI.DTOs;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
     public class ProductService : IProductService
     {
         private readonly NFTAnbarContext _context;
-        public ProductService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public ProductService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(ProductDTO dto)
         {
-            _context.Product.Add(ConvertDTO.ProductDTOToModel(dto));
+            _context.Product.Add(_mapper.Map<Product>(dto));
         }
 
         public async Task Delete(long id)
@@ -45,7 +49,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<ProductDTO>
             {
-                Data = await query.Select(c => ConvertDTO.ProductModelToDTO(c)).ToListAsync(),
+                Data = _mapper.Map<List<ProductDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -57,7 +61,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<ProductDTO> GetById(long id)
         {
-            return ConvertDTO.ProductModelToDTO(await _context.Product.FindAsync(id));
+            return _mapper.Map<ProductDTO>(await _context.Product.FindAsync(id));
         }
 
         public async Task Update(ProductDTO dto)

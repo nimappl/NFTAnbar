@@ -4,20 +4,24 @@ using NFTAnbarAPI.DTOs;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
     public class CityService : ICityService
     {
         private readonly NFTAnbarContext _context;
-        public CityService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public CityService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(CityDTO dto)
         {
-            _context.City.Add(ConvertDTO.CityDTOToModel(dto));
+            _context.City.Add(_mapper.Map<City>(dto));
         }
 
         public async Task Delete(long id)
@@ -45,7 +49,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<CityDTO>
             {
-                Data = await query.Select(c => ConvertDTO.CityModelToDTO(c)).ToListAsync(),
+                Data = _mapper.Map<List<CityDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -57,7 +61,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<CityDTO> GetById(long id)
         {
-            return ConvertDTO.CityModelToDTO(await _context.City.FindAsync(id));
+            return _mapper.Map<CityDTO>(await _context.City.FindAsync(id));
         }
 
         public async Task Update(CityDTO dto)

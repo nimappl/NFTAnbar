@@ -4,20 +4,24 @@ using NFTAnbarAPI.DTOs;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace NFTAnbarAPI.Services
 {
     public class PermitTypeService : IPermitTypeService
     {
         private readonly NFTAnbarContext _context;
-        public PermitTypeService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public PermitTypeService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(PermitTypeDTO dto)
         {
-            _context.PermitType.Add(ConvertDTO.PermitTypeDTOToModel(dto));
+            _context.PermitType.Add(_mapper.Map<PermitType>(dto));
         }
 
         public async Task Delete(long id)
@@ -45,7 +49,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<PermitTypeDTO>
             {
-                Data = await query.Select(c => ConvertDTO.PermitTypeModelToDTO(c)).ToListAsync(),
+                Data = _mapper.Map<List<PermitTypeDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -57,7 +61,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<PermitTypeDTO> GetById(long id)
         {
-            return ConvertDTO.PermitTypeModelToDTO(await _context.PermitType.FindAsync(id));
+            return _mapper.Map<PermitTypeDTO>(await _context.PermitType.FindAsync(id));
         }
 
         public async Task Update(PermitTypeDTO dto)

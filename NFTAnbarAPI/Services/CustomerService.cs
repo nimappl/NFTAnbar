@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NFTAnbarAPI.DTOs;
 using NFTAnbarAPI.Models;
@@ -11,14 +13,16 @@ namespace NFTAnbarAPI.Services
     public class CustomerService : ICustomerService
     {
         private readonly NFTAnbarContext _context;
-        public CustomerService(NFTAnbarContext context)
+        private readonly IMapper _mapper;
+        public CustomerService(NFTAnbarContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
 
         }
         public void Create(CustomerDTO dto)
         {
-            _context.Customer.Add(ConvertDTO.CustomerDTOToModel(dto));
+            _context.Customer.Add(_mapper.Map<Customer>(dto));
         }
 
         public async Task Delete(long id)
@@ -50,7 +54,7 @@ namespace NFTAnbarAPI.Services
 
             return new GridData<CustomerDTO>
             {
-                Data = await query.Select(d => ConvertDTO.CustomerModelToDTO(d)).ToListAsync(),
+                Data = _mapper.Map<List<CustomerDTO>>(await query.ToListAsync()),
                 Filters = qParams.Filters,
                 SortBy = qParams.SortBy,
                 SortType = qParams.SortType,
@@ -62,7 +66,7 @@ namespace NFTAnbarAPI.Services
 
         public async Task<CustomerDTO> GetById(long id)
         {
-            return ConvertDTO.CustomerModelToDTO(await _context.Customer.FindAsync(id));
+            return _mapper.Map<CustomerDTO>(await _context.Customer.FindAsync(id));
         }
 
         public async Task Update(CustomerDTO dto)
