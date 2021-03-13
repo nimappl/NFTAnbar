@@ -20,6 +20,7 @@ namespace NFTAnbarAPI.Models
         public virtual DbSet<Contractor> Contractor { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Havaleh> Havaleh { get; set; }
+        public virtual DbSet<KhzemanatNamehType> KhzemanatNamehType { get; set; }
         public virtual DbSet<Naftkesh> Naftkesh { get; set; }
         public virtual DbSet<Ndepo> Ndepo { get; set; }
         public virtual DbSet<NdepoType> NdepoType { get; set; }
@@ -187,6 +188,39 @@ namespace NFTAnbarAPI.Models
                     .HasColumnType("date");
 
                 entity.Property(e => e.MuserId).HasColumnName("MUserID");
+            });
+
+            modelBuilder.Entity<KhzemanatNamehType>(entity =>
+            {
+                entity.ToTable("KHZemanatNamehType");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Cdate)
+                    .HasColumnName("CDate")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.CuserId).HasColumnName("CUserID");
+
+                entity.Property(e => e.DaDate).HasColumnType("date");
+
+                entity.Property(e => e.DaUserId).HasColumnName("DaUserID");
+
+                entity.Property(e => e.Ddate)
+                    .HasColumnName("DDate")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.DuserId).HasColumnName("DUserID");
+
+                entity.Property(e => e.Gdesc).HasMaxLength(200);
+
+                entity.Property(e => e.Mdate)
+                    .HasColumnName("MDate")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.MuserId).HasColumnName("MUserID");
+
+                entity.Property(e => e.Title).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Naftkesh>(entity =>

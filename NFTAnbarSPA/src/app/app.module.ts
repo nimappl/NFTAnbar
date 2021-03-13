@@ -50,6 +50,8 @@ import { ProductModalComponent } from './product/product-modal/product-modal.com
 import { SendTypeComponent } from './send-type/send-type.component';
 import { SendTypeModalComponent } from './send-type/send-type-modal/send-type-modal.component';
 import { HomeComponent } from './home/home.component';
+import { ZemanatNamehTypeComponent } from './zemanat-nameh-type/zemanat-nameh-type.component';
+import { ZemanatNamehTypeModalComponent } from './zemanat-nameh-type/zemanat-nameh-type-modal/zemanat-nameh-type-modal.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { HomeComponent } from './home/home.component';
     ProductModalComponent,
     SendTypeComponent,
     SendTypeModalComponent,
-    HomeComponent
+    HomeComponent,
+    ZemanatNamehTypeComponent,
+    ZemanatNamehTypeModalComponent
   ],
   imports: [
     FormsModule,

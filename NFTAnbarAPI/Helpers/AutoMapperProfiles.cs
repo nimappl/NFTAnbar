@@ -13,14 +13,15 @@ namespace NFTAnbarAPI.Helpers
             CreateMap<Contractor, ContractorDTO>().ReverseMap();
             CreateMap<Customer, CustomerDTO>().ReverseMap();
             CreateMap<Havaleh, HavalehDTO>().ReverseMap();
-            CreateMap<NaftkeshDTO, Naftkesh>();
-            CreateMap<Naftkesh, NaftkeshDTO>()
-                .ForMember(dest => dest.ContractorName, opt => opt.MapFrom(src => src.Contractor.Name));
+            CreateMap<Naftkesh, NaftkeshDTO>().ReverseMap();
+            CreateMap<Ndepo, NdepoDTO>().ReverseMap();
             CreateMap<NdepoType, NdepoTypeDTO>().ReverseMap();
             CreateMap<NdepoWorkShift, NdepoWorkShiftDTO>().ReverseMap();
+            CreateMap<Permit, PermitDTO>().ReverseMap();
             CreateMap<PermitType, PermitTypeDTO>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<SendType, SendTypeDTO>().ReverseMap();
+            CreateMap<KhzemanatNamehType, KhzemanatNamehTypeDTO>().ReverseMap();
         }
     }
 }

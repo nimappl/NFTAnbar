@@ -13,16 +13,16 @@ namespace NFTAnbarAPI.Services
     public class NaftkeshService : INaftkeshService
     {
         private readonly NFTAnbarContext _context;
-        private readonly IMapper mapper;
+        private readonly IMapper _mapper;
         public NaftkeshService(NFTAnbarContext context, IMapper mapper)
         {
-            this.mapper = mapper;
+            _mapper = mapper;
             _context = context;
         }
 
         public void Create(NaftkeshDTO dto)
         {
-            _context.Naftkesh.Add(ConvertDTO.NaftkeshDTOToModel(dto));
+            _context.Naftkesh.Add(_mapper.Map<Naftkesh>(dto));
         }
 
         public async Task Delete(long id)

@@ -15,6 +15,7 @@ import { PermitComponent } from "./permit/permit.component";
 import { ProductComponent } from "./product/product.component";
 import { SendTypeComponent } from "./send-type/send-type.component";
 import { HomeComponent } from "./home/home.component";
+import { ZemanatNamehTypeComponent } from "./zemanat-nameh-type/zemanat-nameh-type.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'permit', component: PermitComponent },
   { path: 'product', component: ProductComponent },
   { path: 'send-type', component: SendTypeComponent },
+  { path: 'zemanat-nameh-type', component: ZemanatNamehTypeComponent },
   { path: '**', redirectTo: '/depo'},
   { path: '', redirectTo: '/depo', pathMatch: 'full' }
 ];

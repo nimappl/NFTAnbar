@@ -1,0 +1,36 @@
+<h1>{{ title }}</h1>
+<form #f="ngForm" (ngSubmit)="submit()">
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field appearance="fill">
+        <mat-label>عنوان</mat-label>
+        <input type="text" name="title" autocomplete="off" [(ngModel)]="data.title" matNativeControl>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field appearance="fill">
+        <mat-label>کد دسترسی برنامه نویس</mat-label>
+        <input type="number" name="gkey" autocomplete="off" [(ngModel)]="data.gkey" matNativeControl>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <mat-form-field appearance="fill">
+        <mat-label>شرح</mat-label>
+        <textarea matNativeControl name="gdesc" rows="5" [(ngModel)]="data.gdesc"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-secondary ml-2" [mat-dialog-close]="submitted">بستن</button>
+    <button class="btn btn-primary d-flex" type="submit">
+      <div>ثبت</div>
+      <app-loading-spinner-bars
+      color="white"
+      style="height: 25px"
+      class="mr-2"
+      *ngIf="reachingOut"></app-loading-spinner-bars>
+    </button>
+  </div>
+</form>
